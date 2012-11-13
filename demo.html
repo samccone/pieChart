@@ -1,0 +1,31 @@
+<html>
+  <body>
+    <div id="ff"></div>
+  </body>
+    <script src="pieChart.js" type="text/javascript"></script>
+
+    <script>
+
+    pieChart({
+      fillPercent: 25,
+      backgroundStrokeColor: "red",
+      foregroundStrokeColor: "pink"
+    });
+
+    pieChart({
+      fillPercent: 50,
+      backgroundStrokeColor: "teal",
+      foregroundStrokeColor: "orange",
+      container: document.getElementById('ff')
+    });
+
+   pieChart({
+      radius: 20,
+      fillPercent: 77,
+      backgroundStrokeColor: "lime",
+      foregroundStrokeColor: "purple",
+      container: document.getElementById('ff')
+    });
+
+  </script>
+</html>

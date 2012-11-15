@@ -10,10 +10,13 @@
     alert("window.pieChart namespace already in use");
   } else {
     window.pieChart = function(options) {
+
+      var pixelDensity  = window.devicePixelRatio || 1;
+
       var elm           = document.createElement('canvas'),
           ctx           = elm.getContext('2d'),
-          radius        = options.radius || 100,
-          lineWidth     = options.stroke || 20,
+          radius        = (options.radius * pixelDensity) || (100 * pixelDensity),
+          lineWidth     = (pixelDensity * options.stroke) || (20 * pixelDensity),
           startAngle    = 0 * Math.PI/180,
           endAngle      = 360 * Math.PI/180,
           registration  = radius + lineWidth/2
@@ -35,7 +38,13 @@
       * sets the canvas element so that it will fit the desired circle
       **/
       elm.setAttribute('width', registration * 2 + antiAliaisingClippingConts + "px");
-      elm.setAttribute('height', registration * 2+ antiAliaisingClippingConts + "px");
+      elm.setAttribute('height',registration * 2+ antiAliaisingClippingConts + "px");
+
+      /**
+      * enable some retina goodness
+      **/
+      elm.style.width  =  elm.width/pixelDensity + "px";
+      elm.style.height =  elm.width/pixelDensity + "px";
 
       drawArc(drawOptions); // draws the background
 
@@ -55,6 +64,7 @@
         args.ctx.stroke();
         args.ctx.closePath();
       }
+
 
       if(options.container && options.container.appendChild) {
         options.container.appendChild(elm);

@@ -1,6 +1,6 @@
 /**
 *
-* pieChart V.0.2
+* pieChart V.0.3
 * by Sam Saccone -- sam@samx.it
 *
 **/

@@ -18,4 +18,4 @@
       </script>
   </code>
 </pre>
-<img src="https://dl.dropbox.com/u/47552986/Screen%20Shot%202012-11-12%20at%209.03.07%20PM.png">
+<img src="http://dl.dropbox.com/u/47552986/Screenshots/y.png" width="312px" height="190px">

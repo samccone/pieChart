@@ -19,6 +19,7 @@
           registration  = radius + lineWidth/2
           fillEndAngle  = ((options.fillPercent / 100 * 360) - 90) * Math.PI/180,
           complete      = options.fillPercent == 100,
+          antiAliaisingClippingConts = 1,
           drawOptions   = {
                             ctx: ctx,
                             registration: registration,
@@ -33,8 +34,8 @@
       /**
       * sets the canvas element so that it will fit the desired circle
       **/
-      elm.setAttribute('width', registration * 2 + "px");
-      elm.setAttribute('height', registration * 2+ "px");
+      elm.setAttribute('width', registration * 2 + antiAliaisingClippingConts + "px");
+      elm.setAttribute('height', registration * 2+ antiAliaisingClippingConts + "px");
 
       drawArc(drawOptions); // draws the background
 
@@ -42,8 +43,8 @@
       drawOptions.endAngle    = complete ? endAngle : fillEndAngle;
       drawOptions.clockwise   = 0;
       drawOptions.strokeStyle = options.foregroundStrokeColor || "#CCC";
-      drawOptions.lineWidth   = lineWidth + 1; // fix for ugly anti aliasing
-
+      drawOptions.lineWidth   = lineWidth + antiAliaisingClippingConts; // fix for ugly anti aliasing
+      drawOptions.registration= drawOptions.registration;
       drawArc(drawOptions); // draws the filled %
 
       function drawArc(args) {

@@ -49,7 +49,7 @@
       drawArc(drawOptions); // draws the background
 
       /**
-      * recalculate values for the fil stroke
+      * recalculate values for the fill stroke
       **/
       drawOptions.startAngle  = complete ? startAngle : 270 * Math.PI/180;
       drawOptions.endAngle    = complete ? endAngle : fillEndAngle;

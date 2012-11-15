@@ -24,13 +24,18 @@
           complete                    = options.fillPercent >= 100, //make check to make sure if it is over 100% and handle it
           antiAliaisingClippingConts  = 1,
           drawOptions                 = {
+                            complete: complete,
+                            endAngle: endAngle,
+                            fillEndAngle: fillEndAngle,
                             ctx: ctx,
                             registration: registration,
+                            animationRate: (options.animationRate || 1),
                             radius: radius,
                             startAngle: startAngle,
                             endAngle: endAngle,
                             lineWidth: lineWidth,
                             clockwise: 1,
+                            animationTick: (options.animationTick || function(){}),
                             strokeStyle: options.backgroundStrokeColor || "#000"
                           };
 
@@ -51,13 +56,27 @@
       /**
       * recalculate values for the fill stroke
       **/
+
       drawOptions.startAngle  = complete ? startAngle : 270 * Math.PI/180;
       drawOptions.endAngle    = complete ? endAngle : fillEndAngle;
       drawOptions.clockwise   = 0;
       drawOptions.strokeStyle = options.foregroundStrokeColor || "#CCC";
       drawOptions.lineWidth   = lineWidth + antiAliaisingClippingConts; // fix for ugly anti aliasing
       drawOptions.registration= drawOptions.registration;
-      drawArc(drawOptions); // draws the filled %
+
+      if (drawOptions.complete) {
+        drawArc(drawOptions); // draws the filled %
+      } else !(function animatedFill(step, drawOptions) {
+        var radianFillAngle = (step += drawOptions.animationRate) * Math.PI/180;
+        if (radianFillAngle < (drawOptions.complete ? drawOptions.endAngle : drawOptions.fillEndAngle)) {
+          drawOptions.endAngle = radianFillAngle;
+          requestAnimFrame(function() {
+            animatedFill(step, drawOptions);
+            drawOptions.animationTick(step); //calls the animationtick
+            drawArc(drawOptions); // draws the filled %
+          });
+        }
+      })(-90, drawOptions);
 
       /**
       * helper function to do the drawing work
@@ -79,4 +98,18 @@
       return elm;
     }
   }
+})();
+
+
+// shim layer with setTimeout fallback
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          window.oRequestAnimationFrame      ||
+          window.msRequestAnimationFrame     ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
 })();

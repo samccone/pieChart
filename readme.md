@@ -5,17 +5,16 @@
 <h4> how to use </h4>
 <pre>
   <code>
-      <script type="text/javascript" src="pieChart.js"></script>
-      <script type="text/javascript">
-        pieChart({
-          fillPercent: 50,
-          radius: 90,
-          stroke: 40,
-          backgroundStrokeColor: "teal",
-          foregroundStrokeColor: "orange",
-          container: document.getElementById('im_a_div')
-        });
-      </script>
+      pieChart({
+        fillPercent: 95,
+        backgroundStrokeColor: "blue", //optional
+        foregroundStrokeColor: "green", //optional
+        animationRate: 5, //optional
+        animationTick: function(angle) { console.log("currently at "+angle)}, //optional
+        radius: 120, //optional
+        stroke: 12, //optional
+        container: document.getElementById('ff') //optional
+      });
   </code>
 </pre>
 <img src="http://dl.dropbox.com/u/47552986/Screenshots/y.png" width="312px" height="190px">

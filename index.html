@@ -7,13 +7,25 @@
     <script>
 
     pieChart({
-      fillPercent: 25,
+      fillPercent: 95,
+      backgroundStrokeColor: "blue",
+      foregroundStrokeColor: "green",
+      animationRate: 5,
+      animationTick: function(angle) { console.log("currently at "+angle)},
+      radius: 120,
+      stroke: 12,
+      container: document.getElementById('ff')
+    });
+
+    pieChart({
+      fillPercent: 100,
       backgroundStrokeColor: "red",
       foregroundStrokeColor: "pink"
     });
 
+
     pieChart({
-      fillPercent: 50,
+      fillPercent: 75,
       backgroundStrokeColor: "teal",
       foregroundStrokeColor: "orange"
     });

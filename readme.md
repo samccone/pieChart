@@ -1,3 +1,4 @@
+<a href="http://samccone.github.com/pieChart/"> -- Demo -- </a>
 <h2> This Is PieChart </h2>
 <p> after seeing a deluge of charts in this style I decided to make a plugin to ease your development of them</p>
 <img src="http://dribbble.s3.amazonaws.com/users/23390/screenshots/802936/pie-charts.png" width="50px">

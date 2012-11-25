@@ -8,7 +8,7 @@
       fillPercent: 95,
       backgroundStrokeColor: "blue",
       foregroundStrokeColor: "green",
-      animationRate: 5,
+      animationRate: 3000,
       animationTick: function(angle) { console.log("currently at "+angle)},
       radius: 120,
       stroke: 12,
@@ -16,9 +16,10 @@
     });
 
     pieChart({
-      fillPercent: 100,
+      fillPercent: 50,
       backgroundStrokeColor: "red",
-      foregroundStrokeColor: "pink"
+      foregroundStrokeColor: "pink",
+      animationRate: 5000
     });
 
 
@@ -29,16 +30,26 @@
     });
 
    pieChart({
-      radius: 20,
+      radius: 40,
       fillPercent: 77,
       backgroundStrokeColor: "lime",
       foregroundStrokeColor: "purple",
       container: document.getElementById('ff')
     });
   </script>
-    <div id="tweetz">
-    <a href="https://github.com/samccone/pieChart"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-  <a href="https://twitter.com/samccone" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @samccone</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    </div>
+  <pre>
+    <code>
+    // how to use
+    pieChart({
+      fillPercent: 95, //0 - 100
+      backgroundStrokeColor: "blue",
+      foregroundStrokeColor: "green",
+      animationRate: 3000, // in miliseconds
+      animationTick: function(radian) { console.log("currently at "+radian)},
+      radius: 120,
+      stroke: 12,
+      container: document.getElementById('ff') //container element
+    });
+  </code>
+</pre>
 </html>

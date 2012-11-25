@@ -69,7 +69,9 @@
       } else !(function animatedFill(step, drawOptions) {
         var radianFillAngle = (step += drawOptions.animationRate) * Math.PI/180;
         if (radianFillAngle < (drawOptions.complete ? drawOptions.endAngle : drawOptions.fillEndAngle)) {
+          drawOptions.startAngle = drawOptions.endAngle - 0.01; //0.01 is for some stupid antialiasing fix
           drawOptions.endAngle = radianFillAngle;
+
           requestAnimFrame(function() {
             animatedFill(step, drawOptions);
             drawOptions.animationTick(step); //calls the animationtick

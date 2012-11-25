@@ -1,3 +1,4 @@
+'use strict';
 /**
 *
 * pieChart V.0.3
@@ -19,7 +20,7 @@
           lineWidth                   = (pixelDensity * options.stroke) || (20 * pixelDensity), // defaults
           startAngle                  = 0 * Math.PI/180,
           endAngle                    = 360 * Math.PI/180,
-          registration                = radius + lineWidth/2
+          registration                = radius + lineWidth/2,
           fillEndAngle                = ((options.fillPercent / 100 * 360) - 90) * Math.PI/180,
           complete                    = options.fillPercent >= 100, //make check to make sure if it is over 100% and handle it
           antiAliaisingClippingConts  = 1,
@@ -32,7 +33,6 @@
                             animationRate: (options.animationRate || 1),
                             radius: radius,
                             startAngle: startAngle,
-                            endAngle: endAngle,
                             lineWidth: lineWidth,
                             clockwise: 1,
                             animationTick: (options.animationTick || function(){}),

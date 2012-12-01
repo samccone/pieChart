@@ -1,7 +1,7 @@
 'use strict';
 /**
 *
-* pieChart V.0.5
+* pieChart V.0.6
 * by Sam Saccone -- sam@samx.it
 *
 **/
@@ -97,6 +97,10 @@
         args.ctx.closePath();
       }
 
+      function destroy() {
+        TWEEN.removeAll();
+        elm.parentElement.removeChild(elm);
+      }
       /**
       * if a container elm was passed then add it to it
       **/
@@ -111,6 +115,7 @@
         TWEEN.update();
       })();
 
+      elm.destroyChart = destroy;
       return elm;
     }
   }

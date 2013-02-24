@@ -10,23 +10,22 @@
   if (window.pieChart) {
     alert("window.pieChart namespace already in use");
   } else {
-    window.pieChart = function(options) {
-
+    window.pieChart = function(o) {
       var pixelDensity                = window.devicePixelRatio || 1, // grab the pixel density for retina goodness :)
           element                     = document.createElement('canvas'),
           context                     = element.getContext('2d'),
-          radius                      = (options.radius * pixelDensity) || (100 * pixelDensity), // set some defaults
-          lineWidth                   = (pixelDensity * options.stroke) || (20 * pixelDensity), // defaults
+          radius                      = (o.radius * pixelDensity) || (100 * pixelDensity), // set some defaults
+          lineWidth                   = (pixelDensity * o.stroke) || (20 * pixelDensity), // defaults
           startAngle                  = toRad(0),
           endAngle                    = toRad(360),
           registration                = radius + lineWidth / 2,
-          fillEndAngle                = toRad(((options.fillPercent / 100 * 360) - 90)),
-          complete                    = options.fillPercent >= 100, // make check to make sure if it is over 100% and handle it
+          fillEndAngle                = toRad(((o.fillPercent / 100 * 360) - 90)),
+          complete                    = o.fillPercent >= 100, // make check to make sure if it is over 100% and handle it
           antiAliaisingClippingConts  = 1,
           width                       = registration * 2 + antiAliaisingClippingConts,
           height                      = width,
-          backgroundStrokeColors      = typeof options.backgroundStrokeColor === "object" ? options.backgroundStrokeColor : [options.backgroundStrokeColor],
-          foregroundStrokeColors      = typeof options.foregroundStrokeColor === "object" ? options.foregroundStrokeColor : [options.foregroundStrokeColor],
+          backgroundStrokeColors      = _.isObject(o.backgroundStrokeColor) ? o.backgroundStrokeColor : [o.backgroundStrokeColor],
+          foregroundStrokeColors      = _.isObject(o.foregroundStrokeColor) ? o.foregroundStrokeColor : [o.foregroundStrokeColor],
           backgroundDrawOptions       = {
                             element: element,
                             complete: complete,
@@ -34,12 +33,12 @@
                             fillEndAngle: fillEndAngle,
                             context: context,
                             registration: registration,
-                            animationRate: (options.animationRate || 1000),
+                            animationRate: (o.animationRate || 1000),
                             radius: radius,
                             startAngle: startAngle,
                             lineWidth: lineWidth,
                             clockwise: 1,
-                            animationTick: (options.animationTick || function(){}),
+                            animationTick: (o.animationTick || function(){}),
                             strokeStyle: backgroundStrokeColors && backgroundStrokeColors[0] || "#000",
                             strokeGradient: backgroundStrokeColors && backgroundStrokeColors[1],
                             width: width,
@@ -126,7 +125,7 @@
       } else !(function animatedFill(foregroundDrawOptions) {
         foregroundDrawOptions.endAngle = toRad(-90);
         var tween = new TWEEN.Tween( { fillAngle: toRad(-90)} )
-            .to( { fillAngle:  (foregroundDrawOptions.complete ? foregroundDrawOptions.endAngle : foregroundDrawOptions.fillEndAngle)}, options.animationRate )
+            .to( { fillAngle:  (foregroundDrawOptions.complete ? foregroundDrawOptions.endAngle : foregroundDrawOptions.fillEndAngle)}, o.animationRate )
             .easing( TWEEN.Easing.Cubic.InOut )
             .onUpdate(function () {
               foregroundDrawOptions.context.clearRect(0, 0, element.width, element.height);
@@ -160,8 +159,8 @@
       /**
       * if a container elm was passed then add it to it
       **/
-      if (options.container && options.container.appendChild) {
-        options.container.appendChild(element);
+      if (o.container && o.container.appendChild) {
+        o.container.appendChild(element);
       } else {
         document.body.appendChild(element);
       }

@@ -17,10 +17,10 @@
           context                     = element.getContext('2d'),
           radius                      = (options.radius * pixelDensity) || (100 * pixelDensity), // set some defaults
           lineWidth                   = (pixelDensity * options.stroke) || (20 * pixelDensity), // defaults
-          startAngle                  = 0,
-          endAngle                    = 360 * Math.PI/180,
+          startAngle                  = toRad(0),
+          endAngle                    = toRad(360),
           registration                = radius + lineWidth / 2,
-          fillEndAngle                = ((options.fillPercent / 100 * 360) - 90) * Math.PI/180,
+          fillEndAngle                = toRad(((options.fillPercent / 100 * 360) - 90)),
           complete                    = options.fillPercent >= 100, // make check to make sure if it is over 100% and handle it
           antiAliaisingClippingConts  = 1,
           width                       = registration * 2 + antiAliaisingClippingConts,
@@ -54,7 +54,7 @@
                             registration: registration,
                             animationRate: (options.animationRate || 1000),
                             radius: radius,
-                            startAngle: (complete ? startAngle : 270 * Math.PI/180),
+                            startAngle: (complete ? startAngle : toRad(270)),
                             lineWidth: lineWidth + antiAliaisingClippingConts, // fix for ugly anti aliasing
                             clockwise: 0,
                             animationTick: (options.animationTick || function(){}),
@@ -64,6 +64,9 @@
                             height: height
                           };
 
+      function toRad(num) {
+        return num * Math.PI/180;
+      }
       function parseColor(color) {
         var element, match;
 
@@ -129,8 +132,8 @@
         drawArc(foregroundDrawOptions, 'source-over'); // draws the filled %
         drawArc(backgroundDrawOptions, 'destination-over');
       } else !(function animatedFill(foregroundDrawOptions) {
-        foregroundDrawOptions.endAngle = -90 * Math.PI/180;
-        var tween = new TWEEN.Tween( { fillAngle: -90 * Math.PI / 180 } )
+        foregroundDrawOptions.endAngle = toRad(-90);
+        var tween = new TWEEN.Tween( { fillAngle: toRad(-90)} )
             .to( { fillAngle:  (foregroundDrawOptions.complete ? foregroundDrawOptions.endAngle : foregroundDrawOptions.fillEndAngle)}, options.animationRate )
             .easing( TWEEN.Easing.Cubic.InOut )
             .onUpdate(function () {

@@ -45,28 +45,20 @@
                             width: width,
                             height: height
                           },
-          foregroundDrawOptions       = {
-                            element: element,
+          foregroundDrawOptions       = _.extend(_.clone(backgroundDrawOptions), {
                             complete: complete,
                             endAngle: (complete ? endAngle : fillEndAngle),
-                            fillEndAngle: fillEndAngle,
-                            context: context,
-                            registration: registration,
-                            animationRate: (options.animationRate || 1000),
-                            radius: radius,
                             startAngle: (complete ? startAngle : toRad(270)),
                             lineWidth: lineWidth + antiAliaisingClippingConts, // fix for ugly anti aliasing
                             clockwise: 0,
-                            animationTick: (options.animationTick || function(){}),
                             strokeStyle: foregroundStrokeColors && foregroundStrokeColors[0] || "#ccc",
                             strokeGradient: foregroundStrokeColors && foregroundStrokeColors[1],
-                            width: width,
-                            height: height
-                          };
+                          });
 
       function toRad(num) {
         return num * Math.PI/180;
       }
+
       function parseColor(color) {
         var element, match;
 
@@ -164,6 +156,7 @@
         TWEEN.removeAll();
         element.parentElement.removeChild(element);
       }
+
       /**
       * if a container elm was passed then add it to it
       **/

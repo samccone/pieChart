@@ -24,6 +24,7 @@
           antiAliaisingClippingConts  = 1,
           width                       = registration * 2 + antiAliaisingClippingConts,
           height                      = width,
+          _workingContext             = undefined,
           backgroundStrokeColors      = _.isObject(o.backgroundStrokeColor) ? o.backgroundStrokeColor : [o.backgroundStrokeColor],
           foregroundStrokeColors      = _.isObject(o.foregroundStrokeColor) ? o.foregroundStrokeColor : [o.foregroundStrokeColor],
           backgroundDrawOptions       = {
@@ -140,15 +141,19 @@
       * helper function to do the drawing work
       **/
       function drawArc(drawOptions, compositeMode) {
-        drawOptions.context.globalCompositeOperation = compositeMode;
-        drawOptions.context.strokeStyle  = drawOptions.strokeStyle;
-        drawOptions.context.lineWidth    = drawOptions.lineWidth || 1;
-        drawOptions.context.beginPath();
-        drawOptions.context.arc(drawOptions.registration, drawOptions.registration, drawOptions.radius, drawOptions.startAngle, drawOptions.endAngle, drawOptions.clockwise);
-        drawOptions.context.stroke();
-        drawOptions.context.closePath();
-        drawOptions.context.globalCompositeOperation = 'source-atop';
-        drawOptions.strokeGradient && drawOptions.context.drawImage(drawOptions.gradientElement, 0, 0);
+        _workingContext = drawOptions.context;
+        canvasChain('globalCompositeOperation', compositeMode)('strokeStyle', drawOptions.strokeStyle)('lineWidth', drawOptions.lineWidth || 1)('beginPath');
+        _workingContext.arc(drawOptions.registration, drawOptions.registration, drawOptions.radius, drawOptions.startAngle, drawOptions.endAngle, drawOptions.clockwise);
+        canvasChain('stroke')('closePath')('globalCompositeOperation', 'source-atop')
+        drawOptions.strokeGradient && _workingContext.drawImage(drawOptions.gradientElement, 0, 0);
+        _workingContext = undefined;
+      }
+
+
+      function canvasChain(prop, val) {
+        if (val) { _workingContext[prop] = val; }
+        else { _workingContext[prop](); }
+        return canvasChain;
       }
 
       function destroy() {

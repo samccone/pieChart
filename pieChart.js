@@ -129,10 +129,10 @@
             gradientContext: generated.ctx
           }).gradientContext.putImageData(buildGradient(drawOptions), 0, 0);
         }
+        return initializeGradient;
       }
 
-      initializeGradient(backgroundDrawOptions);
-      initializeGradient(foregroundDrawOptions);
+      initializeGradient(backgroundDrawOptions)(foregroundDrawOptions);
 
       if (foregroundDrawOptions.complete) {
         drawArc(foregroundDrawOptions, 'source-over'); // draws the filled %

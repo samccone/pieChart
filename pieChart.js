@@ -135,8 +135,7 @@
       initializeGradient(backgroundDrawOptions)(foregroundDrawOptions);
 
       if (foregroundDrawOptions.complete) {
-        drawArc(foregroundDrawOptions, 'source-over'); // draws the filled %
-        drawArc(backgroundDrawOptions, 'destination-over');
+        drawArc(foregroundDrawOptions, 'source-over')(backgroundDrawOptions, 'destination-over');
       } else !(function animatedFill(foregroundDrawOptions) {
         foregroundDrawOptions.endAngle = toRad(-90);
         var tween = new TWEEN.Tween( { fillAngle: toRad(-90)} )
@@ -145,8 +144,7 @@
             .onUpdate(function () {
               foregroundDrawOptions.context.clearRect(0, 0, element.width, element.height);
               foregroundDrawOptions.endAngle = this.fillAngle;
-              drawArc(foregroundDrawOptions, 'source-over'); // draws the filled %
-              drawArc(backgroundDrawOptions, 'destination-atop'); // draws the background fill;
+              drawArc(foregroundDrawOptions, 'source-over')(backgroundDrawOptions, 'destination-atop'); // draws the background fill;
               foregroundDrawOptions.animationTick(this.fillAngle);
             }).start();
       })(foregroundDrawOptions);
@@ -161,6 +159,7 @@
         canvasChain('stroke')('closePath')('globalCompositeOperation', 'source-atop')
         drawOptions.strokeGradient && _workingContext.drawImage(drawOptions.gradientElement, 0, 0);
         _workingContext = undefined;
+        return drawArc;
       }
 
 

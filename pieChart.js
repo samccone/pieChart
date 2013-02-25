@@ -12,8 +12,6 @@
   } else {
     window.pieChart = function(o) {
       var pixelDensity                = window.devicePixelRatio || 1, // grab the pixel density for retina goodness :)
-          element                     = document.createElement('canvas'),
-          context                     = element.getContext('2d'),
           radius                      = (o.radius * pixelDensity) || (100 * pixelDensity), // set some defaults
           lineWidth                   = (pixelDensity * o.stroke) || (20 * pixelDensity), // defaults
           startAngle                  = toRad(0),
@@ -25,6 +23,8 @@
           width                       = registration * 2 + antiAliaisingClippingConts,
           height                      = width,
           _workingContext             = undefined,
+          element                     = (buildCanvas(width, height, width/pixelDensity, height/pixelDensity)).elm,
+          context                     = element.getContext('2d'),
           backgroundStrokeColors      = _.isObject(o.backgroundStrokeColor) ? o.backgroundStrokeColor : [o.backgroundStrokeColor],
           foregroundStrokeColors      = _.isObject(o.foregroundStrokeColor) ? o.foregroundStrokeColor : [o.foregroundStrokeColor],
           backgroundDrawOptions       = {
@@ -77,6 +77,24 @@
         };
       }
 
+      function buildCanvas(width, height, widthStyle, heightStyle) {
+        var _elm = document.createElement('canvas');
+        var _ctx = _elm.getContext('2d');
+
+        _elm.setAttribute('width', width + 'px');
+        _elm.setAttribute('height', height + 'px');
+
+        if (widthStyle) {
+          _elm.style.width   = widthStyle + "px";
+          _elm.style.height  = heightStyle + "px";
+        }
+
+        return {
+          elm: _elm,
+          ctx: _ctx
+        }
+      }
+
       function buildGradient(drawOptions) {
         var x      = 0,
             y      = 0,
@@ -104,18 +122,14 @@
 
       function initializeGradient(drawOptions) {
         if(drawOptions.strokeGradient) {
-          drawOptions.gradientElement = document.createElement('canvas');
-          drawOptions.gradientContext = drawOptions.gradientElement.getContext('2d');
-          drawOptions.gradientElement.setAttribute('width', drawOptions.width + 'px');
-          drawOptions.gradientElement.setAttribute('height', drawOptions.height + 'px');
-          drawOptions.gradientContext.putImageData(buildGradient(drawOptions), 0, 0);
+          var generated = buildCanvas(drawOptions.width, drawOptions.height);
+
+          _.extend(drawOptions, {
+            gradientElement: generated.elm,
+            gradientContext: generated.ctx
+          }).gradientContext.putImageData(buildGradient(drawOptions), 0, 0);
         }
       }
-
-      element.setAttribute('width', width + 'px');
-      element.setAttribute('height', height + 'px');
-      element.style.width = width / pixelDensity + 'px';
-      element.style.height = height / pixelDensity + 'px';
 
       initializeGradient(backgroundDrawOptions);
       initializeGradient(foregroundDrawOptions);

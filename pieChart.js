@@ -1,7 +1,7 @@
 'use strict';
 /**
 *
-* pieChart V.0.6
+* pieChart V.0.8
 * by Sam Saccone -- sam@samx.it
 *
 **/

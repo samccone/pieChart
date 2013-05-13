@@ -1,5 +1,6 @@
 <a href="http://samccone.github.com/pieChart/"> -- Demo -- </a>
 <h2> This Is PieChart </h2>
+PieChart is a simple way to make beautiful donught style pie charts. It has the options for gradient fills and animations.
 <p> after seeing a deluge of charts in this style I decided to make a plugin to ease your development of them</p>
 <img src="http://dribbble.s3.amazonaws.com/users/23390/screenshots/802936/pie-charts.png" width="50px">
 <img src="http://dribbble.s3.amazonaws.com/users/7387/screenshots/688739/piechart.jpg"  width="50px">
